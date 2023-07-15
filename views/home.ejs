@@ -1,0 +1,18 @@
+<%- include("./partials/header") -%>
+<h1>Home</h1>
+<p><%=homeStartingContent%></p>
+
+<!-- Using scriptlet tag to console log posts array-->
+<%# console.log(posts); %> 
+
+<!-- Using scriptlet tags to print the titles of each post -->
+<%# for(let i=0;i<posts.length;i++){
+    console.log(posts[i].postTitle); 
+} %>
+
+<!-- Using forEach loop to print the titles of each post -->
+<% posts.forEach(function(elem){ %>
+    <h2><%= elem.postTitle %></h2>
+    <p><%= elem.postContent.slice(0,100)+" ..." %> <a href="/posts/<%=elem.postTitle%>">Read More</a></p>
+<% }); %>
+<%- include("./partials/footer") -%>

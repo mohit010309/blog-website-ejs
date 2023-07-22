@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 //global variable for storing the posts created
-const posts = [];
+// const posts = [];
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
@@ -33,11 +33,14 @@ app.listen(3000, function() {
 
 // home route
 app.get("/",function(req,res){
-  res.render("home",{
-    homeStartingContent:homeStartingContent,
-    posts:posts
-  });
 
+  // fetching posts array from database
+  postModel.find({}).then(function(posts){
+    res.render("home",{
+      homeStartingContent:homeStartingContent,
+      posts:posts
+    });
+  });
   //just printing posts array for testing
   // console.log(posts);
 });
@@ -59,11 +62,11 @@ app.get("/compose",function(req,res){
 
 // compose post route
 app.post("/compose",function(req,res){
-  const post = {
-    postTitle:req.body.PostTitle,
-    postContent:req.body.PostContent
-  };
-  posts.push(post);
+  // const post = {
+  //   postTitle:req.body.PostTitle,
+  //   postContent:req.body.PostContent
+  // };
+  // posts.push(post);
 
 
   // saving data to database
@@ -71,10 +74,11 @@ app.post("/compose",function(req,res){
     postTitle:req.body.PostTitle,
     postContent:req.body.PostContent
   });
-  newPost.save();
-
+  newPost.save().then(function(){
+    res.redirect("/");
+  });
   //redirecting to home route
-  res.redirect("/");
+  
 });
 
 // /posts/<some_route_name> route using routing parameters of express
@@ -83,30 +87,33 @@ app.get("/posts/:postName",function(req,res){
   // writing code to check if postName exists in the posts array
   // Using lodash module lowerCase to convert string to lowerCase
   // lowerCase ignores space, special characters
-  let ans=false;
+  
   const sr=_.lowerCase(req.params.postName);
-  let ind=-1;
-  for(let i=0;i<posts.length;i++)
-  {
-    const postTitle = _.lowerCase(posts[i].postTitle);
-    if(postTitle===sr)
+  
+  postModel.find({}).then(function(posts){
+    let ans=false;
+    let ind=-1;
+    for(let i=0;i<posts.length;i++)
     {
-      ind=i;
-      ans=true;
-      break;
+      const postTitle = _.lowerCase(posts[i].postTitle);
+      if(postTitle===sr)
+      {
+        ind=i;
+        ans=true;
+        break;
+      }
     }
-  }
-  if(ans)
-  {
-    //console.log(posts[ind].postContent);
-    res.render("post",{
-      postTitle: posts[ind].postTitle,
-      postContent: posts[ind].postContent
-    });
-  }
-  else
-  {
-    res.render("failure");
-  }
-
+    if(ans)
+    {
+      //console.log(posts[ind].postContent);
+      res.render("post",{
+        postTitle: posts[ind].postTitle,
+        postContent: posts[ind].postContent
+      });
+    }
+    else
+    {
+      res.render("failure");
+    }
+  });
 });

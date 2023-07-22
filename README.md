@@ -1,6 +1,6 @@
 This repository contains codes related to Blog Website
 
-Technologies used :
+<u>Technologies used</u> :
 
   1 - NodeJS
 

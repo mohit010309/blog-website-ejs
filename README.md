@@ -1,6 +1,6 @@
 This repository contains codes related to Blog Website
 
-::Technologies used:: :
+__Technologies used__ :
 
   1 - NodeJS
 
@@ -14,7 +14,7 @@ This repository contains codes related to Blog Website
 
 
 
-Modules used :
+__Modules used__ :
 
   1 - mongoose
 
@@ -24,7 +24,7 @@ Modules used :
 
 
 
-To run the application, follow the steps below :
+__To run the application, follow the steps below__ :
 
   1 - Clone the github repo to local machine
 

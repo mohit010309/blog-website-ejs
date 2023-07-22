@@ -13,13 +13,15 @@ Technologies used :
 5 - Bootstrap
 
 
-modules used :
+
+Modules used :
 
 1 - mongoose
 
 2 - body-parser
 
 3 - lodash
+
 
 
 To run the application, follow the steps below :
